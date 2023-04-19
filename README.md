@@ -1,5 +1,5 @@
-# g5-cloudrig
-Powershell script to set up cloud gaming rigs on Amazon EC2 G5 instances.
+# g5-cloudrig-lite
+Powershell script to set up cloud gaming rigs on Amazon EC2 G5 instances excluding graphics drivers.
 
 Run this command in an elevated Powershell terminal:
 ```
