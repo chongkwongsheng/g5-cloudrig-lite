@@ -18,5 +18,5 @@ Optional
 
 Run this command in an elevated Powershell terminal:
 ```
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/tomgrice/g5-cloudrig-lite/main/Setup.ps1'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/chongkwongsheng/g5-cloudrig-lite/main/Setup.ps1'))
 ```
