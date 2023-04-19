@@ -2,6 +2,9 @@
 Basic Powershell script to set up cloud gaming on Amazon EC2 G5 instances. The script does the following:
 1. Asks for a new administrator password
 1. Optimizes a few Windows settings
+1. Disables Local User Access control
+1. Disables shutdown tracker
+1. Sets up autologon
 1. Installs package manager Chocolatey
 1. Installs 7-zip
 1. Installs Steam
