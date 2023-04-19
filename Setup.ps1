@@ -20,10 +20,7 @@ do {
 } while ($AdminPassword -ne $AdminPasswordConfirm)
 
 $install_7zip = $Host.UI.PromptForChoice("7zip", "Would you like to install 7zip?", ('&Yes', '&No'), 0)
-$install_openshell = $Host.UI.PromptForChoice("Open-Shell", "Would you like to install Open-Shell? (classic start menu)", ('&Yes', '&No'), 0)
 $install_steam = $Host.UI.PromptForChoice("Steam", "Would you like to install Steam?", ('&Yes', '&No'), 0)
-$install_nicedcv = $Host.UI.PromptForChoice("Nice-DCV Server", "Would you like to install NICE-DCV Server? (high-fidelity remote desktop)", ('&Yes', '&No'), 0)
-$install_sunshine = $Host.UI.PromptForChoice("Sunshine", "Would you like to install Sunshine? (Open Source NVIDIA GameStream)", ('&Yes', '&No'), 0)
 
 # Disable Windows password complexity
 Write-Host "Disabling Windows password complexity" -ForegroundColor Cyan
