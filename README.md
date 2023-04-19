@@ -1,5 +1,10 @@
 # g5-cloudrig-lite
-Powershell script to set up cloud gaming rigs on Amazon EC2 G5 instances excluding graphics drivers.
+Basic Powershell script to set up cloud gaming on Amazon EC2 G5 instances. The script does the following:
+1. Asks for a new administrator password
+1. Optimizes a few Windows settings
+1. Installs package manager Chocolatey
+1. Installs 7-zip
+1. Installs Steam
 
 Run this command in an elevated Powershell terminal:
 ```
