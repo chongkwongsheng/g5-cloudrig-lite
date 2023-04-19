@@ -1,13 +1,9 @@
 $ProgressPreference = 'SilentlyContinue'
-$InstallDir = "C:\CloudRigSetup"
+$InstallDir = "C:\EC2CloudGamingSetup"
 New-Item $InstallDir -ItemType directory
 
 $Header = @"
-AWS EC2 - Nvidia G5 Instance Cloud Gaming Rig Setup (working title)
-By tomgrice (https://github.com/tomgrice/g5-cloudrig/)
-Original work by acceleration3 (https://github.com/acceleration3)
-===========================================================================
- 
+AWS EC2 Cloud Gaming Basic Setup
 "@
 
 # Get initial settings from user.
@@ -95,47 +91,13 @@ Invoke-RestMethod -Uri 'https://community.chocolatey.org/install.ps1' | Invoke-E
 # Install pwsh 7 (Core)
 choco install powershell-core -y
 
-if ($install_nicedcv -eq 0) {
-    # Open ports for NICE-DCV
-    Write-Host "Opening ports for NICE-DCV Server (tcp/8443)" -ForegroundColor Cyan
-    Start-Process netsh -ArgumentList "advfirewall firewall add rule name=`"DCV Server`" dir=in action=allow protocol=TCP localport=8443" -NoNewWindow -Wait
-
-    "https://d1uj6qtbmh3dt5.cloudfront.net/" | Set-Variable BucketURL -Scope Private ; Set-Variable DCVUrl -Value ("$BucketURL" + ((Invoke-RestMethod "$BucketURL").ListBucketResult.Contents | Where-Object {$_.Key -like "*/Servers/*.msi"} | Sort-Object {$_.LastModified} -Descending | Select-Object -First 1).Key)
-    Write-Host "Installing NICE-DCV from $DCVUrl" -ForegroundColor Cyan
-    Invoke-RestMethod $DCVUrl -OutFile "$InstallDir\NiceDCV.msi"
-
-
-    Start-Process -FilePath "C:\Windows\System32\msiexec.exe" -ArgumentList "/i $InstallDir\NiceDCV.msi ADDLOCAL=ALL AUTOMATIC_SESSION_OWNER=Administrator /quiet /norestart" -Wait
-    New-Item -Path "Microsoft.PowerShell.Core\Registry::\HKEY_USERS\S-1-5-18\Software\GSettings\com\nicesoftware\dcv\" -Name security -Force | Set-ItemProperty -Name os-auto-lock -Value 0
-    Set-Service dcvserver -StartupType Automatic
-}
-
 if ($install_7zip -eq 0) {
     choco install 7zip -y
-}
-
-if ($install_openshell -eq 0) {
-    choco install open-shell --params="'/StartMenu'" -y
 }
 
 if ($install_steam -eq 0) {
     choco install steam -y
 }
-
-if ($install_sunshine -eq 0) {
-    Invoke-WebRequest -Uri "https://github.com/loki-47-6F-64/sunshine/releases/latest/download/Sunshine-Windows.zip" -OutFile "$InstallDir\Sunshine-Windows.zip"
-    Expand-Archive -Path "$InstallDir\Sunshine-Windows.zip" -DestinationPath "C:\sunshine" -Force
-    New-Service -Name "sunshinesvc" -BinaryPathName '"C:\sunshine\tools\sunshinesvc.exe"' -StartupType Automatic
-    Start-Service sunshinesvc
-}
-
-Write-Host "Installing NVIDIA vGaming Drivers" -ForegroundColor Cyan
-$NVDriverURL = "https://nvidia-gaming.s3.amazonaws.com/" + (Invoke-RestMethod "https://nvidia-gaming.s3.amazonaws.com/?prefix=windows/latest").ListBucketResult.Contents.Key[1]
-Invoke-WebRequest $NVDriverURL -OutFile "$InstallDir\NVDriver.zip"
-Expand-Archive -Path "$InstallDir\NVDriver.zip" -DestinationPath "$InstallDir\NVDriver" -Force
-Start-Process "$InstallDir\NVDriver\*Cloud_Gaming*server2022*.exe" -ArgumentList "-s" -NoNewWindow -Wait
-New-ItemProperty -Path "HKLM:\SOFTWARE\NVIDIA Corporation\Global" -Name "vGamingMarketplace" -PropertyType "DWord" -Value "2"
-Invoke-WebRequest -Uri "https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Archive/GridSwCertWindows_2021_10_2.cert" -OutFile "$Env:PUBLIC\Documents\GridSwCert.txt"
 
 $do_restart = $Host.UI.PromptForChoice("Restart required", "Would you like to restart Windows now?", ('&Yes', '&No'), 0)
 if ($do_restart -eq 0) {
